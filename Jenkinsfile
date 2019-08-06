@@ -123,6 +123,15 @@ volumes:[
 
     }
 
+    stage ('helm package') {
+
+      container('helm') {
+
+        // run helm chart package
+        pipeline.helmPackage(chart_dir)
+      }
+    }
+
     // deploy only the master branch
     // if (env.BRANCH_NAME == 'master') {
     //   stage ('deploy to k8s') {
