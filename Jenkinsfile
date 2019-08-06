@@ -132,7 +132,7 @@ volumes:[
       }
     }
 
-    stage('Results') {
+    stage('archive artifacts') {
       archiveArtifacts '*.tgz'
    }
 
