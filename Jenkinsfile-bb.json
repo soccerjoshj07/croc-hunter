@@ -11,10 +11,10 @@
       "name": "croc-hunter-secrets"
     },
     "container_repo": {
-      "host": "briansjenkinsacr.azurecr.io",
-      "master_acct": "briansjenkinsacr",
-      "alt_acct": "briansjenkinsacr",
-      "jenkins_creds_id": "briansjenkinsacr",
+      "host": "jdk8s.azurecr.io",
+      "master_acct": "jdk8s",
+      "alt_acct": "jdk8s",
+      "jenkins_creds_id": "jdk8s",
       "repo": "crochunter",
       "dockeremail": ".",
       "dockerfile": "./",
