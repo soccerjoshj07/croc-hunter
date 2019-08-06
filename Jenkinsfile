@@ -132,6 +132,12 @@ volumes:[
       }
     }
 
+    post {
+        always {
+            archiveArtifacts artifacts: '*.tgz', onlyIfSuccessful: true
+        }
+    }
+
     // deploy only the master branch
     // if (env.BRANCH_NAME == 'master') {
     //   stage ('deploy to k8s') {
