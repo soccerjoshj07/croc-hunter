@@ -2,8 +2,8 @@
 # To install on your own cluster, run:
 # helm --namespace jenkins --name jenkins -f ./jenkins-values.yaml install stable/jenkins
 
-Master:
-  ImageTag: "2.121.3"
+master:
+  imageTag: "2.164.2"
   resources:
     requests:
       cpu: "50m"
@@ -11,23 +11,22 @@ Master:
     limits:
       cpu: "2000m"
       memory: "2048Mi"
-  HostName: walkthrough.demo.az.jessicadeen.com
-  ServiceType: ClusterIP
-  ServicePort: 8080
-  InstallPlugins:
-      - kubernetes:1.12.4
+  serviceType: ClusterIP
+  servicePort: 8080
+  targetPort: 8080
+  installPlugins:
+      - kubernetes:1.15.1
       - pipeline-stage-view:2.10
       - pipeline-rest-api:2.10
-      - workflow-aggregator:2.5
-      - credentials-binding:1.16
-      - git:3.9.1
+      - workflow-aggregator:2.6
+      - credentials-binding:1.18
+      - git:3.9.3
       - pipeline-github-lib:1.0
       - ghprb:1.42.0
-      - blueocean:1.8.2
-      - artifactory:2.16.2
-      - tfs:5.139.2
+      - blueocean:1.14.0
+      - tfs:5.142.0
 
-  ScriptApproval:
+  scriptApproval:
     - "method groovy.json.JsonSlurperClassic parseText java.lang.String"
     - "new groovy.json.JsonSlurperClassic"
     - "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods leftShift java.util.Map java.util.Map"
@@ -36,26 +35,26 @@ Master:
     - "staticMethod org.kohsuke.groovy.sandbox.impl.Checker checkedCall java.lang.Object boolean boolean java.lang.String java.lang.Object[]"
     - "staticMethod org.kohsuke.groovy.sandbox.impl.Checker checkedGetProperty java.lang.Object boolean boolean java.lang.Object"
 
-  Ingress:
-    ApiVersion: extensions/v1beta1
-    Annotations:
+  ingress:
+    enabled: true
+    apiVersion: extensions/v1beta1
+    annotations:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
       certmanager.k8s.io/cluster-issuer: letsencrypt-prod
       ingress.kubernetes.io/secure-backends: "true"
 
-    TLS:
-      - secretName: walkthrough.demo.az.jessicadeen.com
+    hostName: jenkins.bb.az.jessicadeen.com
+    tls:
+      - secretName: jenkins.bb.az.jessicadeen.com
         hosts:
-          - walkthrough.demo.az.jessicadeen.com
+          - jenkins.bb.az.jessicadeen.com
 
-Agent:
+agent:
   Enabled: false
 
 rbac:
-  install: true
-  serviceAccountName: default
+  create: true
+  serviceAccount.name: default
   # RBAC api version (currently either v1beta1 or v1alpha1)
   apiVersion: v1beta1
-  # Cluster role reference
-  roleRef: cluster-admin
