@@ -11,7 +11,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
     containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:3.29-1-alpine', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins', resourceRequestCpu: '200m', resourceLimitCpu: '300m', resourceRequestMemory: '256Mi', resourceLimitMemory: '512Mi'),
     containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'golang', image: 'golang:1.12.7', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.1', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.2', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.1', command: 'cat', ttyEnabled: true)
 ],
 volumes:[
@@ -61,13 +61,13 @@ volumes:[
     // compile tag list
     def image_tags_list = pipeline.getMapValues(image_tags_map)
 
-    // stage ('compile and test') {
+    stage ('compile and test') {
 
-    //   container('golang') {
-    //     sh "go test -v -race ./..."
-    //     sh "make bootstrap build"
-    //   }
-    // }
+      container('golang') {
+        sh "go test -v -race ./..."
+        sh "make bootstrap build"
+      }
+    }
 
     stage ('test deployment') {
 
