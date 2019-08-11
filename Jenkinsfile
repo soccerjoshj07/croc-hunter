@@ -121,9 +121,6 @@ volumes:[
       // perform az login
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
                         usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
-          
-          sh "read -sp "Azure password: " AZ_PASS && echo && az login --service-principal -u <app-url> -p $AZ_PASS --tenant <tenant>
-"
           sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
 
           sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz"
