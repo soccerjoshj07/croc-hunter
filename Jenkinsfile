@@ -127,6 +127,31 @@ volumes:[
 
           // sh "echo ${env.PASSWORD} | docker login -u ${env.TENANT_ID} --password-stdin ${config.container_repo.host}"
         }
+  
+  stage ('docker build') {
+
+      container('docker') {
+
+        // perform docker login to container registry as the docker-pipeline-plugin doesn't work with the next auth json format
+        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.container_repo.jenkins_creds_id,
+                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh "echo ${env.PASSWORD} | docker login -u ${env.USERNAME} --password-stdin ${config.container_repo.host}"
+        }
+
+        // build container image
+        pipeline.containerBuild(
+            dockerfile: config.container_repo.dockerfile,
+            host      : config.container_repo.host,
+            acct      : acct,
+            repo      : config.container_repo.repo,
+            tags      : image_tags_list,
+            auth_id   : config.container_repo.jenkins_creds_id
+      }
+  }
+
+  stage ('security scan') {
+
+  }
         
   stage ('publish container') {
 
@@ -138,15 +163,14 @@ volumes:[
           sh "echo ${env.PASSWORD} | docker login -u ${env.USERNAME} --password-stdin ${config.container_repo.host}"
         }
 
-        // build and publish container
-        pipeline.containerBuildPub(
+        // publish container
+        pipeline.containerPublish(
             dockerfile: config.container_repo.dockerfile,
             host      : config.container_repo.host,
             acct      : acct,
             repo      : config.container_repo.repo,
             tags      : image_tags_list,
-            auth_id   : config.container_repo.jenkins_creds_id,
-            image_scanning: config.container_repo.image_scanning
+            auth_id   : config.container_repo.jenkins_creds_id
         )
       }
 

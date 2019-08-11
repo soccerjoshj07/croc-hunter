@@ -17,8 +17,7 @@
       "jenkins_creds_id": "jdk8s",
       "repo": "crochunter",
       "dockeremail": ".",
-      "dockerfile": "./",
-      "image_scanning": false
+      "dockerfile": "./"
     },
     "az_sub": {
       "jenkins_creds_id": "azjdsub",
