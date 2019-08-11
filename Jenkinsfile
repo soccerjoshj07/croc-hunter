@@ -138,7 +138,7 @@ volumes:[
           sh "echo ${env.PASSWORD} | docker login -u ${env.USERNAME} --password-stdin ${config.container_repo.host}"
         }
 
-        // build container image
+        // dockerbuild
         pipeline.containerBuild(
             dockerfile: config.container_repo.dockerfile,
             host      : config.container_repo.host,
@@ -146,8 +146,10 @@ volumes:[
             repo      : config.container_repo.repo,
             tags      : image_tags_list,
             auth_id   : config.container_repo.jenkins_creds_id
+        )
       }
-  }
+
+    }
 
   stage ('security scan') {
 
