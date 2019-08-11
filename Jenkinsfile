@@ -123,7 +123,7 @@ volumes:[
                         usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
           sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
 
-          sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz"
+          sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz --force"
 
           // sh "echo ${env.PASSWORD} | docker login -u ${env.TENANT_ID} --password-stdin ${config.container_repo.host}"
         }
