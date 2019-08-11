@@ -100,7 +100,38 @@ volumes:[
       }
     }
 
-    stage ('publish container') {
+    stage ('helm package') {
+
+      container('helm') {
+
+        // run helm chart package
+        pipeline.helmPackage(chart_dir)
+      }
+    }
+
+  //   stage('archive artifacts') {
+  //     archiveArtifacts '*.tgz'
+  //  }
+
+  stage ('helm upload') {
+
+    container('azcli') {
+      println "Uploading helm chart to ACR"
+
+      // perform az login
+        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
+                        usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
+          
+          sh "read -sp "Azure password: " AZ_PASS && echo && az login --service-principal -u <app-url> -p $AZ_PASS --tenant <tenant>
+"
+          sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
+
+          sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz"
+
+          // sh "echo ${env.PASSWORD} | docker login -u ${env.TENANT_ID} --password-stdin ${config.container_repo.host}"
+        }
+        
+  stage ('publish container') {
 
       container('docker') {
 
@@ -123,34 +154,6 @@ volumes:[
       }
 
     }
-
-    stage ('helm package') {
-
-      container('helm') {
-
-        // run helm chart package
-        pipeline.helmPackage(chart_dir)
-      }
-    }
-
-  //   stage('archive artifacts') {
-  //     archiveArtifacts '*.tgz'
-  //  }
-
-  stage ('helm upload') {
-
-    container('azcli') {
-      println "Uploading helm chart to ACR"
-
-      // perform az login
-        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
-                        usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
-          sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
-
-          sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz"
-
-          // sh "echo ${env.PASSWORD} | docker login -u ${env.TENANT_ID} --password-stdin ${config.container_repo.host}"
-        }
 
         // // build and publish container
         // pipeline.azCliHelmUpload(
