@@ -154,6 +154,7 @@ imagePullSecrets: [ 'aqua' ]){
             acct      : acct,
             repo      : config.container_repo.repo,
             tags      : image_tags_list,
+            buildTag  : image_tags_list.get(0),
             auth_id   : config.container_repo.jenkins_creds_id
         )
       }
