@@ -161,7 +161,7 @@ volumes:[
   }
 
   stage ('security scan') {
-    
+
       container ('aqua') {
 
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_server_creds_id,
@@ -171,7 +171,6 @@ volumes:[
               server    : config.aqua.server
           )
       }
-    }
   }
         
   stage ('publish container') {
