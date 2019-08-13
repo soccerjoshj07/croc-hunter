@@ -19,7 +19,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
 volumes:[
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     hostPathVolume(mountPath: '/tmp', hostPath: '/tmp')
-]
+],
 imagePullSecrets: [ 'aqua' ]){
 
   node ('jenkins-pipeline') {
