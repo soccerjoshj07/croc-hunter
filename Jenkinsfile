@@ -118,11 +118,12 @@ volumes:[
     container('azcli') {
       println "Uploading helm chart to ACR"
 
-      // perform az login
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
                         usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
           
-          sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
+          // sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
+          
+          // perform az login
           pipeline.azLogin(
             appid   : config.az_sub.appid
           )
