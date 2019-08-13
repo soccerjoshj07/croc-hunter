@@ -24,6 +24,12 @@
       "appid": "349273fe-7811-49e7-b2f9-cf840325bbd4",
       "helmReg": "jdk8s"
     },
+    "aqua": {
+      "jenkins_reg_creds_id": "aqua-reg",
+      "jenkins_server_creds_id": "aqua-server",
+      "server": "http://aquajd.eastus.cloudapp.azure.com:8080"
+
+    },
     "pipeline": {
         "enabled": true,
         "debug": false,
