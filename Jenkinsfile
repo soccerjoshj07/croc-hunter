@@ -14,12 +14,13 @@ podTemplate(label: 'jenkins-pipeline', containers: [
     containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.2', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.1', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'azcli', image: 'microsoft/azure-cli:latest', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'aqua', image: 'registry.aquasec.com/scanner:4.2', imagePullSecrets: 'aqua', command: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'aqua', image: 'registry.aquasec.com/scanner:4.2', command: 'cat', ttyEnabled: true)
 ],
 volumes:[
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     hostPathVolume(mountPath: '/tmp', hostPath: '/tmp')
-]){
+]
+imagePullSecrets: [ 'aqua' ]){
 
   node ('jenkins-pipeline') {
 
