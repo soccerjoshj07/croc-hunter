@@ -175,7 +175,7 @@ imagePullSecrets: [ 'aqua' ]){
   // }
 
   stage ('aqua security scan') {
-    aqua imageName: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+    aqua localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
   }
         
   stage ('publish container') {
