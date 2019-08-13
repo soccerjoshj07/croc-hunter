@@ -176,7 +176,8 @@ imagePullSecrets: [ 'aqua' ]){
   // }
 
   stage ('aqua security scan') {
-    aqua localImage: ${env.IMAGE_ID}, notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+    aqua localImage: "${env.IMAGE_ID}"
+    // aqua localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
     // echo "image id ${env.IMAGE_ID}"
   }
         
