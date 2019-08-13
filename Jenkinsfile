@@ -18,7 +18,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
 ],
 volumes:[
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-    hostTmpVolume(mountPath: '/tmp', hostPath: '/tmp')
+    hostPathVolume(mountPath: '/tmp', hostPath: '/tmp')
 ]){
 
   node ('jenkins-pipeline') {
