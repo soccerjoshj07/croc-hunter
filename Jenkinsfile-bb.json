@@ -25,8 +25,7 @@
       "helmReg": "jdk8s"
     },
     "aqua": {
-      "jenkins_reg_creds_id": "aqua-reg",
-      "jenkins_server_creds_id": "aqua-server",
+      "jenkins_creds_id": "aqua-server",
       "server": "http://aquajd.eastus.cloudapp.azure.com:8080"
 
     },

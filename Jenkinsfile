@@ -165,7 +165,7 @@ imagePullSecrets: [ 'aqua' ]){
 
       container ('aqua') {
 
-        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_server_creds_id,
+        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
                         usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
 
           pipeline.aquaScan(
