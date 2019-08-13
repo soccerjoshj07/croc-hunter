@@ -156,7 +156,6 @@ volumes:[
             auth_id   : config.container_repo.jenkins_creds_id
         )
       }
-
   }
 
   stage ('security scan') {
