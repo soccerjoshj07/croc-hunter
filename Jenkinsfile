@@ -123,8 +123,6 @@ imagePullSecrets: [ 'aqua' ]){
 
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
                         usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
-          
-          // sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
 
           // perform az login
           pipeline.azLogin(
@@ -163,14 +161,16 @@ imagePullSecrets: [ 'aqua' ]){
 
   stage ('security scan') {
 
-      container ('aqua') {
+      container('aqua') {
 
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
-                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+                        usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
 
-          pipeline.aquaScan(
+         pipeline.aquaScan(
               server    : config.aqua.server
           )
+
+        }
       }
   }
         
