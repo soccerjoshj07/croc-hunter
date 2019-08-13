@@ -113,7 +113,7 @@ volumes:[
   //     archiveArtifacts '*.tgz'
   //  }
 
-  stage ('helm upload') {
+  stage ('helm chart upload') {
 
     container('azcli') {
       println "Uploading helm chart to ACR"
@@ -121,12 +121,18 @@ volumes:[
       // perform az login
         withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
                         usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
+          
           sh "az login --service-principal -u ${config.az_sub.appid} -p ${env.PASSWORD} --tenant ${env.TENANT_ID}"
+          pipeline.azLogin(
+            appid   : config.az_sub.appid
+          )
+          pipeline.azHelmUpload(
+            repo    : config.az_sub.helmReg
+          )
 
-          sh "az acr helm push -n ${config.az_sub.helmReg} *.tgz --force"
-
-          // sh "echo ${env.PASSWORD} | docker login -u ${env.TENANT_ID} --password-stdin ${config.container_repo.host}"
         }
+      }
+    }
   
   stage ('docker build') {
 
@@ -149,7 +155,7 @@ volumes:[
         )
       }
 
-    }
+  }
 
   stage ('security scan') {
 
@@ -175,24 +181,6 @@ volumes:[
             auth_id   : config.container_repo.jenkins_creds_id
         )
       }
-
-    }
-
-        // // build and publish container
-        // pipeline.azCliHelmUpload(
-        //     dockerfile: config.container_repo.dockerfile,
-        //     app_id    : config.az_sub.app_id,
-        //     acct      : acct,
-        //     repo      : config.container_repo.repo,
-        //     tags      : image_tags_list,
-        //     auth_id   : config.container_repo.jenkins_creds_id,
-        //     image_scanning: config.container_repo.image_scanning
-        // )
-
-
-
-
-    }
   }
     // deploy only the master branch
     // if (env.BRANCH_NAME == 'master') {
