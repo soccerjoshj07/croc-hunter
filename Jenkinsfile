@@ -164,7 +164,7 @@ imagePullSecrets: [ 'aqua' ]){
     
     container('docker'){
       // aqua locationType: 'local', localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
-      aqua locationType: 'local', localImage: 'jdk8s/crochunter:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', layerVulnerabilities: '' 
+      aqua locationType: 'local', localImage: 'jdk8s/crochunter:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', customFlags: '--layerVulnerabilities'
     }
     // echo "image id ${env.IMAGE_ID}"
   }
