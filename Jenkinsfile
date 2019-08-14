@@ -161,8 +161,10 @@ imagePullSecrets: [ 'aqua' ]){
   }
 
   stage ('aqua security scan') {
-    // aqua localImage: "${env.IMAGE_ID}"
-    aqua locationType: 'local', localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+    
+    container('docker'){
+      aqua locationType: 'local', localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+    }
     // echo "image id ${env.IMAGE_ID}"
   }
 
