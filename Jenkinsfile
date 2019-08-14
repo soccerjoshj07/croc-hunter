@@ -112,10 +112,6 @@ imagePullSecrets: [ 'aqua' ]){
       }
     }
 
-  //   stage('archive artifacts') {
-  //     archiveArtifacts '*.tgz'
-  //  }
-
   stage ('helm chart upload') {
 
     container('azcli') {
@@ -168,20 +164,6 @@ imagePullSecrets: [ 'aqua' ]){
     }
     // echo "image id ${env.IMAGE_ID}"
   }
-
-  // stage ('aqua security scan') {
-
-  //     container('aqua') {
-
-  //       withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
-  //                       usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-  //        pipeline.aquaScan(
-  //             server    : config.aqua.server
-  //         )
-  //       }
-  //     }
-  // }
         
   stage ('publish container') {
 
