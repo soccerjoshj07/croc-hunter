@@ -160,25 +160,25 @@ imagePullSecrets: [ 'aqua' ]){
       }
   }
 
-  // stage ('aqua security scan') {
-  //   // aqua localImage: "${env.IMAGE_ID}"
-  //   aqua localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
-  //   // echo "image id ${env.IMAGE_ID}"
-  // }
-
   stage ('aqua security scan') {
-
-      container('aqua') {
-
-        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
-                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-         pipeline.aquaScan(
-              server    : config.aqua.server
-          )
-        }
-      }
+    // aqua localImage: "${env.IMAGE_ID}"
+    aqua locationType: 'local', localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+    // echo "image id ${env.IMAGE_ID}"
   }
+
+  // stage ('aqua security scan') {
+
+  //     container('aqua') {
+
+  //       withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
+  //                       usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+
+  //        pipeline.aquaScan(
+  //             server    : config.aqua.server
+  //         )
+  //       }
+  //     }
+  // }
         
   stage ('publish container') {
 
