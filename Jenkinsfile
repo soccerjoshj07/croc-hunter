@@ -14,7 +14,7 @@ podTemplate(label: 'jenkins-pipeline', containers: [
     containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.2', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.1', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'azcli', image: 'microsoft/azure-cli:latest', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'aqua', image: 'registry.aquasec.com/scanner:4.2', command: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'aqua', image: 'registry.aquasec.com/scanner:4.2', command: 'scan', ttyEnabled: true)
 ],
 volumes:[
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -159,21 +159,6 @@ imagePullSecrets: [ 'aqua' ]){
         )
       }
   }
-
-  // stage ('security scan') {
-
-  //     container('aqua') {
-
-  //       withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.aqua.jenkins_creds_id,
-  //                       usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-
-  //        pipeline.aquaScan(
-  //             server    : config.aqua.server
-  //         )
-
-  //       }
-  //     }
-  // }
 
   // stage ('aqua security scan') {
   //   // aqua localImage: "${env.IMAGE_ID}"
