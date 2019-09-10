@@ -5,20 +5,24 @@
     "cpu": "10m",
     "memory": "128Mi",
     "test": true,
-    "hostname": "crochunter.jessicadeen.com"
+    "hostname": "crochunter.h3.az.jessicadeen.com"
   },
   "k8s_secret": {
     "name": "croc-hunter-secrets"
   },
   "container_repo": {
-    "host": "acrjdtest.azurecr.io",
-    "master_acct": "acrjdtest",
-    "alt_acct": "acrjdtest",
-    "jenkins_creds_id": "acr_creds",
+    "host": "jdk8s.azurecr.io",
+    "master_acct": "jdk8s",
+    "alt_acct": "jdk8s",
+    "jenkins_creds_id": "jdk8s",
     "repo": "crochunter",
     "dockeremail": ".",
-    "dockerfile": "./",
-    "image_scanning": false
+    "dockerfile": "./"
+  },
+  "az_sub": {
+    "jenkins_creds_id": "azjdsub",
+    "appid": "349273fe-7811-49e7-b2f9-cf840325bbd4",
+    "helmReg": "jdk8s"
   },
   "pipeline": {
       "enabled": true,

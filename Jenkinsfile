@@ -11,16 +11,15 @@ podTemplate(label: 'jenkins-pipeline', containers: [
     containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:3.29-1-alpine', args: '${computer.jnlpmac} ${computer.name}', workingDir: '/home/jenkins', resourceRequestCpu: '200m', resourceLimitCpu: '300m', resourceRequestMemory: '256Mi', resourceLimitMemory: '512Mi'),
     containerTemplate(name: 'docker', image: 'docker:latest', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'golang', image: 'golang:1.12.7', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.2', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v3.0.0-beta.3', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.15.1', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'azcli', image: 'microsoft/azure-cli:latest', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'aqua', image: 'registry.aquasec.com/scanner:4.2', command: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'azcli', image: 'microsoft/azure-cli:latest', command: 'cat', ttyEnabled: true)
 ],
 volumes:[
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     hostPathVolume(mountPath: '/tmp', hostPath: '/tmp')
 ],
-imagePullSecrets: [ 'aqua' ]){
+){
 
   node ('jenkins-pipeline') {
 
@@ -30,7 +29,7 @@ imagePullSecrets: [ 'aqua' ]){
     checkout scm
 
     // read in required jenkins workflow config values
-    def inputFile = readFile('Jenkinsfile-bb.json')
+    def inputFile = readFile('Jenkinsfile.json')
     def config = new groovy.json.JsonSlurperClassic().parseText(inputFile)
     println "pipeline config ==> ${config}"
 
