@@ -91,26 +91,26 @@ volumes:[
       }
     }
 
-  stage ('helm chart upload') {
+  // stage ('helm chart upload') {
 
-    container('azcli') {
-      println "Uploading helm chart to ACR"
+  //   container('azcli') {
+  //     println "Uploading helm chart to ACR"
 
-        withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
-                        usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
+  //       withCredentials([[$class          : 'UsernamePasswordMultiBinding', credentialsId: config.az_sub.jenkins_creds_id,
+  //                       usernameVariable: 'TENANT_ID', passwordVariable: 'PASSWORD']]) {
 
-          // perform az login
-          pipeline.azLogin(
-              appid   : config.az_sub.appid
-          )
+  //         // perform az login
+  //         pipeline.azLogin(
+  //             appid   : config.az_sub.appid
+  //         )
 
-          pipeline.azHelmUpload(
-              repo    : config.az_sub.helmReg
-          )
+  //         pipeline.azHelmUpload(
+  //             repo    : config.az_sub.helmReg
+  //         )
 
-        }
-      }
-    }
+  //       }
+  //     }
+  //   }
   
   stage ('docker build') {
 
@@ -133,15 +133,6 @@ volumes:[
             auth_id   : config.container_repo.jenkins_creds_id
         )
       }
-  }
-
-  stage ('aqua security scan') {
-    
-    container('docker'){
-      // aqua locationType: 'local', localImage: "${env.IMAGE_ID}", notCompliesCmd: 'exit 1', onDisallowed: 'fail'
-      aqua locationType: 'local', localImage: 'jdk8s/crochunter:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail', customFlags: '--layer-vulnerabilities'
-    }
-    // echo "image id ${env.IMAGE_ID}"
   }
         
   stage ('publish container') {
