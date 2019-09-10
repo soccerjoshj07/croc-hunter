@@ -1,3 +1,4 @@
+apiVersion: v1
 name: croc-hunter
 home: https://github.com/lachie83/croc-hunter
 version: 0.3.1
