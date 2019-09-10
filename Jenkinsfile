@@ -81,7 +81,7 @@ volumes:[
 
         // run dry-run helm chart installation
         pipeline.helmDeploy(
-          dry_run       : true,
+          dry_run       : false,
           name          : config.app.name,
           namespace     : config.app.name,
           chart_dir     : chart_dir,
