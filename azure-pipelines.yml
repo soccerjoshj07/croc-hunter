@@ -104,9 +104,9 @@ stages:
               command: 'upgrade'
               chartType: 'Name'
               chartName: '$(Pipeline.Workspace)/charts'
-              releaseName: 'croc-hunter-$(Build.BuildId)'
+              releaseName: 'default-website'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
-              install: false
+              valueFile: '$(Pipeline.Workspace)/values.yaml'
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
