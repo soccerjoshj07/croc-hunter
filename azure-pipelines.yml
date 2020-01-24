@@ -106,7 +106,7 @@ stages:
               chartName: '$(Pipeline.Workspace)/charts'
               releaseName: 'default-website'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
-              valueFile: '$(Pipeline.Workspace)/values.yaml'
+              valueFile: '$(Pipeline.Workspace)/charts/values.yaml'
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
