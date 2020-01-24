@@ -106,6 +106,7 @@ stages:
               chartName: '$(Pipeline.Workspace)/charts'
               releaseName: 'croc-hunter-$(Build.BuildId)'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
+              install: false
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
