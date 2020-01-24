@@ -84,23 +84,26 @@ stages:
 #                $(imagePullSecret)
 #              containers: |
 #                $(containerRegistry)/$(imageRepository):$(tag)
-            
-          - task: Kubernetes@1
-            inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'aksworkshop-aks-demo-josh-dev-1575410324839'
-              namespace: 'default'
-              command: 'version'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Azure Container Registry'
               
           - task: HelmInstaller@1
             inputs:
               helmVersionToInstall: 'latest'
+
+          - task: HelmDeploy@0
+            inputs:
+              connectionType: 'Azure Resource Manager'
+              azureSubscription: 'Visual Studio Enterprise – MPN(93ddb8b3-ddb9-4d1c-ba59-421456e65538)'
+              azureResourceGroup: 'crochunter-aks-demo-rg'
+              kubernetesCluster: 'crochunterdemoaks'
+              namespace: 'default'
+              command: 'upgrade'
+              chartType: 'Name'
+              chartName: '$(Pipeline.Workspace)/charts' 
+
           - task: helm@1
             inputs:
               subCommand: 'upgrade'
-              arguments: '$(releaseNameDev) $(Pipeline.Workspace)/charts --install --force --reset-values --namespace $(namespace) --wait --set image=$(containerRegistry)/$(imageRepository) --set imageTag=$(tag) --set imagePullSecrets=$(imagePullSecret) --set ingress.hostname=$(hostnameDev)'
+              arguments: '$(releaseNameDev) --install --force --reset-values --namespace $(namespace) --wait --set image=$(containerRegistry)/$(imageRepository) --set imageTag=$(tag) --set imagePullSecrets=$(imagePullSecret) --set ingress.hostname=$(hostnameDev)'
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
