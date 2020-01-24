@@ -101,7 +101,7 @@ stages:
               azureResourceGroup: 'crochunter-aks-demo-rg'
               kubernetesCluster: 'crochunterdemoaks'
               namespace: 'default'
-              command: 'install'
+              command: 'upgrade'
               chartType: 'FilePath'
               chartPath: '$(Pipeline.Workspace)/charts'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
