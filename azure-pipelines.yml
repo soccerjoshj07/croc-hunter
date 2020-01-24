@@ -103,8 +103,7 @@ stages:
               namespace: 'default'
               command: 'install'
               chartType: 'FilePath'
-              chartName: '$(Pipeline.Workspace)/charts'
-              releaseName: 'default-website'
+              chartPath: '$(Pipeline.Workspace)/charts'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
               valueFile: '$(Pipeline.Workspace)/charts/values.yaml'
 
