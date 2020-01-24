@@ -101,7 +101,7 @@ stages:
               azureResourceGroup: 'crochunter-aks-demo-rg'
               kubernetesCluster: 'crochunterdemoaks'
               namespace: 'default'
-              command: 'upgrade'
+              command: 'install'
               chartType: 'Name'
               chartName: '$(Pipeline.Workspace)/charts'
               releaseName: 'default-website'
