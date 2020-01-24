@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: soccerjoshjcrochunter 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: soccerjoshjcrochunter 
+    spec:
+      containers:
+        - name: soccerjoshjcrochunter 
+          image: crochunterdemoaci.azurecr.io/soccerjoshjcrochunter
+          ports:
+          - containerPort: 8080
