@@ -85,6 +85,10 @@ stages:
 #              containers: |
 #                $(containerRegistry)/$(imageRepository):$(tag)
             
+          - script: helm version
+          - task: HelmInstaller@1
+            inputs:
+              helmVersionToInstall: 'latest'
           - task: helm@1
             inputs:
               subCommand: 'upgrade'
