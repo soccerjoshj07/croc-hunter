@@ -104,6 +104,7 @@ stages:
               command: 'upgrade'
               chartType: 'Name'
               chartName: '$(Pipeline.Workspace)/charts'
+              overrideValues: 'ingress.hostname=$(hostnameDev)'
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
