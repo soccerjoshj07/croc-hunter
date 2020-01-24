@@ -89,6 +89,11 @@ stages:
             inputs:
               helmVersionToInstall: 'latest'
 
+          - task: helm@1
+            inputs:
+              subCommand: 'upgrade'
+              arguments: '$(releaseNameDev) --install --force --reset-values --namespace $(namespace) --wait --set image=$(containerRegistry)/$(imageRepository) --set imageTag=$(tag) --set imagePullSecrets=$(imagePullSecret) --set ingress.hostname=$(hostnameDev)'
+
           - task: HelmDeploy@0
             inputs:
               connectionType: 'Azure Resource Manager'
@@ -99,11 +104,6 @@ stages:
               command: 'upgrade'
               chartType: 'Name'
               chartName: '$(Pipeline.Workspace)/charts' 
-
-          - task: helm@1
-            inputs:
-              subCommand: 'upgrade'
-              arguments: '$(releaseNameDev) --install --force --reset-values --namespace $(namespace) --wait --set image=$(containerRegistry)/$(imageRepository) --set imageTag=$(tag) --set imagePullSecrets=$(imagePullSecret) --set ingress.hostname=$(hostnameDev)'
 
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
