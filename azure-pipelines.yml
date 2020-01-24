@@ -85,6 +85,15 @@ stages:
 #              containers: |
 #                $(containerRegistry)/$(imageRepository):$(tag)
             
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'aksworkshop-aks-demo-josh-dev-1575410324839'
+              namespace: 'default'
+              command: 'version'
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+              
           - task: HelmInstaller@1
             inputs:
               helmVersionToInstall: 'latest'
