@@ -102,7 +102,7 @@ stages:
               kubernetesCluster: 'crochunterdemoaks'
               namespace: 'default'
               command: 'install'
-              chartType: 'Name'
+              chartType: 'FilePath'
               chartName: '$(Pipeline.Workspace)/charts'
               releaseName: 'default-website'
               overrideValues: 'ingress.hostname=$(hostnameDev)'
